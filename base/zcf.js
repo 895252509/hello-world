@@ -1,3 +1,7 @@
+/**
+ * zcf = z canvas framwork
+ */
+
 class Zcf extends cbase{
   constructor( _cid ){
     super();
@@ -8,36 +12,24 @@ class Zcf extends cbase{
     //是否启用监听键盘事件
     this._keydownevented = true;
 
-
+    // canvas dom
     this.ccvs = document.querySelector(_cid);
+    // canvas 上下文
     this.cvs = this.ccvs.getContext('2d');
+    // 执行timer
     this.tmrun = null;
-    this.smode = [];
+    // 可显示对象数组
+    this._smode = null;
 
     this._dispatchEvt();
 
     this._run();
   }
 
-  add(obj){
-    if( !obj ) return ;
-    this.smode.push(obj);
-  }
-
   _dispatchEvt(){
 
-    this.ccvs.addEventListener('click', function(e){
-      console.log(`click: ${e.clientX},${e.clientY}`);
-    });
+    CEventful.eventful(this);
 
-    if( this._keydownevented ){
-      document.addEventListener('keydown', (e)=>{
-        console.log(`keydown: ${e.key}`);
-        for (const so of this.smode) {
-          if(so.iseventabled) so.trigger('keydown',e);
-        } 
-      });
-    }
   }
 
   _clearscreen(){
@@ -73,4 +65,18 @@ class Zcf extends cbase{
   get screenheight(){
     return this.ccvs.height;
   }
+
+  get smode(){
+    return this._smode._model;
+  }
+
+  get model(){
+    return this._smode;
+  }
+
+  set model(obj){
+    if(!obj instanceof Zmm ) return ;
+    this._smode = obj;
+  }
+
 }

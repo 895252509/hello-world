@@ -1,10 +1,23 @@
 
 
 const zcf = new Zcf("#can");
+const zmm = new Zmm();
+zcf.model = zmm;
 
 const snake = new Snake();
+zmm.add(snake);
 
-zcf.add(snake);
+zcf.on( 'keydown', (e)=>{
+  console.log("keydown zcf");
+} );
+
+zcf.on( 'click', e =>{
+  console.log(`click: ${e.clientX},${e.clientY}`);
+});
+
+zcf.on( 'mousemove', e => {
+  console.log(`mouse move x:\t${e.x},y:\t${e.y}`); 
+});
 
 snake.on('keydown',(e)=>{
   console.log(`key down ${e.type}`); 
@@ -32,4 +45,4 @@ snake.on('keydown',(e)=>{
 
 setInterval(function (){
   snake.go();
-}, 600);
+}, 500);

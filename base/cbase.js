@@ -1,3 +1,21 @@
+//
+const EventNamesMouse = 
+['click'
+,'contextmenu'
+,'mousemove'
+,'mousedown'
+,'mouseup'
+,'dbclick'
+,'wheel'
+,'mouseover'
+,'focus'
+,'blur'];
+
+const EventNamesKeywords = 
+['keydown'
+,'keypress'
+,'keyup'];
+
 class Evthandler{
   constructor(isOnce= false, handler= null){
     this.isOnce = isOnce;
@@ -7,6 +25,7 @@ class Evthandler{
 
 class cbase{
   constructor(){
+		// 存放注册的事件
     this.evt_handlers = [];
 
     this.iseventabled = true;
@@ -38,5 +57,21 @@ class cbase{
 		// if( !(eventtype in Eventtype) ) return ; 
 		this.evt_handlers[eventtype].push(new Evthandler(true, handler));
 	}
-    
+
+}
+
+class Zeo extends cbase{
+	constructor(){
+		super();
+
+		this.makeEvent();
+	}
+
+	makeEvent(){
+		EventNamesMouse.every( en => {
+			if( this[`on${en}`] )
+				this.on( en, this[`on${en}`].bind(this) );    
+		})
+	}
+
 }
